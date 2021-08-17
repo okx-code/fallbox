@@ -1,0 +1,62 @@
+﻿@page
+@using System.Text
+@model IndexModel
+
+<div class="element">
+    <p>
+        <label for="text_upload">Upload text</label>
+    </p>
+    <form enctype="multipart/form-data" method="post">
+        <textarea name="text_upload" id="text_upload" placeholder="Text to upload..."></textarea>
+        <input type="submit" value="Upload Text">
+    </form>
+</div>
+<hr/>
+<div class="element">
+    <p>
+        <label for="file_upload">Alternatively, upload a file</label>
+    </p>
+    <form enctype="multipart/form-data" method="post">
+        <input type="file" id="file_upload" name="file_upload"><br/>
+        <input type="submit" value="Upload File">
+    </form>
+</div>
+<hr/>
+<div class="element">
+    <table>
+        <colgroup>
+            <col>
+            <col style="width: 100%">
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+            <th>Uploaded</th>
+            <th>Contents</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Item.Reverse())
+        {
+            <tr>
+                <td>@item.Uploaded.ToString("yyyy-MM-dd HH:mm")</td>
+                @if (item.DisplayName != null)
+                {
+                <td><a asp-page="/Download" asp-route-id="@item.Id">@item.DisplayName</a></td>
+                }
+                else
+                {
+                    <td>
+                        <div class="clickable-textarea" onclick="showText(this)">
+                            <textarea class="textarea-min" rows="1" readonly>@Encoding.UTF8.GetString(item.Contents)</textarea>
+                            <textarea class="textarea-max invisible" rows="5" readonly onfocusout="hideText(this.parentElement)">@Encoding.UTF8.GetString(item.Contents)</textarea>
+                        </div>
+                    </td>
+                }
+                <td class="remove" onclick="del(this.parentElement, @item.Id)">x</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,9 @@
+{
+  "name": "dropbox",
+  "version": "1.0.0",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "4.0.2",
+    "del": "6.0.0"
+  }
+}
